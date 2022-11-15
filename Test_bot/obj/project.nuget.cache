@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "tumgG4KHbIL/adXbHYo6vIljwCgWe+du7bWHbvF4Hs1MG8Q2YRIBpVxl70X30BaP+voHGtXky75z0znn8CVyDA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jumab\\OneDrive\\Изображения\\Test_bot\\Test_bot\\Test_bot.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jumab\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\jumab\\.nuget\\packages\\npgsql\\6.0.7\\npgsql.6.0.7.nupkg.sha512",
+    "C:\\Users\\jumab\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\jumab\\.nuget\\packages\\telegram.bot\\18.0.0\\telegram.bot.18.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
