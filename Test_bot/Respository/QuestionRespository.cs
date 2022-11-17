@@ -20,7 +20,7 @@ namespace Test_bot.Respository
             {
                 await _connection.OpenAsync();
                 string query = "INSERT INTO questions (title, true_answer, option_a, option_b, option_c, option_d, exam_id)" +
-                $" VALUES(@id, @title, @true_answer, @option_a, @option_b, @option_c, @option_d, @exam_id); ";
+                $" VALUES(@title, @true_answer, @option_a, @option_b, @option_c, @option_d, @exam_id); ";
                 NpgsqlCommand command = new NpgsqlCommand(query, _connection)
                 {
                     Parameters = {

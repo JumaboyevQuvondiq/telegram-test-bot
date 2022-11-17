@@ -23,9 +23,6 @@ namespace Test_bot.ViewPages.User
     public static class UStartPage
 
     {
-        static TelegramBotClient Bot = BotService.Bot;
-        static ReceiverOptions receiverOptions = BotService.receiverOptions;
-
        
         public static async Task StartPage(ITelegramBotClient bot, Update update, CancellationToken arg3)
         {
@@ -50,48 +47,21 @@ namespace Test_bot.ViewPages.User
 
 
             List<string> strings = new List<string>();
-            strings.Add("test boshlash");
-            strings.Add("mening testlarim");
+            strings.Add("🖊 test boshlash");
+            strings.Add("📝 mening testlarim");
 
             
 
             ReplyKeyboardMarkup replyKeyboard = new ReplyKeyboardMarkup(PagesService.SortingPrint(strings, 2));
 
-            await Bot.SendTextMessageAsync(update.Message.Chat.Id, "Menyudan tanlang", replyMarkup: replyKeyboard);
+            await bot.SendTextMessageAsync(update.Message.Chat.Id, "Menyudan tanlang", replyMarkup: replyKeyboard);
            
                 
-                await bot.ReceiveAsync(updateHandler, Program.ErrorHandler, receiverOptions);
+             
 
 
         }
 
-        private static async Task updateHandler(ITelegramBotClient bot, Update update, CancellationToken arg3)
-        {
-            if (update.Type == UpdateType.Message)
-            {
-                if (update.Message.Type == MessageType.Text)
-                {
-                    if (update.Message.Text == "test boshlash")
-                    {
-                        await UCategoryPage.CategoryPage(bot, update, arg3);
-                    }
-                 
-                    else if (update.Message.Text == "mening testlarim") 
-                    {
-                        // user ishlagan testlar ro`yxati
-                       await UMyTestsPage.MyTestsPage(bot, update, arg3, update.Message.Chat.Id.ToString());
-
-                    }
-                    else if (update.Message.Text != "/start" && update.Message.Text != "🟰 Asosiy menu")
-                    {
-                        await Bot.SendTextMessageAsync(update.Message.Chat.Id, "Menyudan tanlang");
-
-                    }
-                }
-            }
-         }
-
-        
 
 
     }

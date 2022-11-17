@@ -21,8 +21,8 @@ namespace Test_bot.ViewPages.ForUser
     public class UMyTestsPage
     {
         private static readonly NpgsqlConnection _connection = new NpgsqlConnection(DbConstant.CONNECTION);
-        static ReceiverOptions receiverOptions = BotService.receiverOptions;
-        static List<ExamInfo> Exams = new List<ExamInfo>();    
+       
+        public static List<ExamInfo> Exams = new List<ExamInfo>();    
         public static async Task MyTestsPage(ITelegramBotClient bot, Update update, CancellationToken arg3, string UserId)
         {
             try
@@ -68,7 +68,7 @@ namespace Test_bot.ViewPages.ForUser
                 }
 
                 await bot.SendTextMessageAsync(update.Message.Chat.Id, str, Telegram.Bot.Types.Enums.ParseMode.Html, replyMarkup: new InlineKeyboardMarkup(inlineKeyboardButtons));
-                await bot.ReceiveAsync(updateHandler, Program.ErrorHandler, receiverOptions);
+              
             }
             catch { }
             finally
@@ -77,37 +77,6 @@ namespace Test_bot.ViewPages.ForUser
             }
         }
 
-        private static async Task updateHandler(ITelegramBotClient bot, Update update, CancellationToken arg3)
-        {
-            if (update.Type == UpdateType.Message)
-            {
-                if (update.Message.Type == MessageType.Text)
-                {
-                    if (update.Message.Text == "test boshlash")
-                    {
-                        await UCategoryPage.CategoryPage(bot, update, arg3);
-                    }
-
-                    else if (update.Message.Text == "mening testlarim")
-                    {
-                       
-
-                    }
-                }
-            }
-            else if (update.Type == UpdateType.CallbackQuery)
-            {
-                var index = int.Parse(update.CallbackQuery.Data)-1;
-                // ExamInfo funksiyaga ketadi
-                var str = $"<b>{Exams[index].title}  {Exams[index].true_answer_count}/{Exams[index].questions_count}  {Exams[index].start_time}</b>\n";
-                UserAnswersPageRespository userAnswersPageRespository = new UserAnswersPageRespository();
-                 var result =  await userAnswersPageRespository.GetAllAsync(Exams[index].id);
-                str += PagesService.AnswerPage(result.ToList());
-
-               await  bot.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, str, Telegram.Bot.Types.Enums.ParseMode.Html);
-            }
-                
-        }
     }
            
 }

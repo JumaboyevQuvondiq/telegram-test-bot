@@ -20,11 +20,12 @@ namespace Test_bot.Respository
             try
             {
                 await _connection.OpenAsync();
-                string query = "INSERT INTO categories(category_name)" +
-                $" VALUES(@name); ";
+                string query = "INSERT INTO categories(category_name, count_exam)" +
+                $" VALUES(@name, @count_exam); ";
                 NpgsqlCommand command = new NpgsqlCommand(query, _connection)
                 {
-                    Parameters = {new NpgsqlParameter("name",category.Name)}
+                    Parameters = {new NpgsqlParameter("name",category.Name),
+                    new NpgsqlParameter("count_exam",category.count_tests)}
                 };
                 int result = await command.ExecuteNonQueryAsync();
                 return result;

@@ -10,6 +10,6 @@ namespace Test_bot.models
     {
         public string UserId { get; set; } = default!;
         public string FullName { get; set; } = string.Empty;
-        public string UserName { get; set; } = string.Empty;
+        public string? UserName { get; set; }
     }
 }

@@ -24,16 +24,16 @@ namespace Test_bot.ViewPages.ForUser
         static ReceiverOptions receiverOptions = BotService.receiverOptions;
         public static List<string> strings = new List<string>();
         static char TrueAnswer;
-        static int count_true_answer = 0;
         static List<Question> questions;
         static UserExam userExam;
         static int index = 0;
+        public string userId { get; set; }
        
 
-        public static async Task TestPage(ITelegramBotClient bot, Update update, CancellationToken arg3)
+        public  async Task TestPage(ITelegramBotClient bot, Update update, CancellationToken arg3)
         {
             
-
+            userId = update.Message.Chat.Id.ToString(); 
             var Exam_id = Program.exams[update.Message.Text];
             IQuestionRespository questionRespository = new QuestionRespository();
              userExam = new UserExam()
@@ -66,35 +66,15 @@ namespace Test_bot.ViewPages.ForUser
 
         }
 
-        private static async Task updateHandler(ITelegramBotClient arg1, Update update, CancellationToken arg3)
+        public static async Task updateHandler(ITelegramBotClient arg1, Update update, CancellationToken arg3)
         {
             if (update.Type == UpdateType.Message)
             {
                 if (update.Message.Type == MessageType.Text)
                 {
-                    if (update.Message.Text.ToUpper()[0] == TrueAnswer)
-                    {
-                        count_true_answer+=1;
-                    }
-                    else if (update.Message.Text == "/start")
-                    {
-                        await UStartPage.StartPage(arg1, update, arg3);
-
-                    }
-                    else if (update.Message.Text == "🔙 Orqaga")
-                    {
-                        update.Message.Text = UExamsPage.category;
-                        await UExamsPage.UExamPage(arg1,update,arg3);
-                    }
-                    else if (update.Message.Text == "🟰 Asosiy menu")
-                    {
-                      
-                        await UStartPage.StartPage(arg1, update, arg3);
-                    }
-                    else if (!Program.exams.Keys.Contains(update.Message.Text))
-                    {
-                        await Bot.SendTextMessageAsync(update.Message.Chat.Id, "Menyudan tanlang");
-                    }
+                    if (!Program.exams.Keys.Contains(update.Message.Text))
+                        
+                       await Bot.ReceiveAsync(Program.UpdateHandler, Program.ErrorHandler, receiverOptions);
                 }
             }
 
@@ -132,10 +112,10 @@ namespace Test_bot.ViewPages.ForUser
                     IUserExamRespository userExamRespository = new UserExamRespository();
                     await userExamRespository.UpdateAsync(userExam);
                     await arg1.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "test yakunlandi");
+                   
                 }
 
                 
-                Console.WriteLine(count_true_answer);
                
 
             }
@@ -146,7 +126,7 @@ namespace Test_bot.ViewPages.ForUser
         {
             if (update.Type == UpdateType.Message)
             {
-                string str = $"<b>{question.Title}</b>\n\nA) {question.OptionA}\nA) {question.OptionB}\nA) {question.OptionC}\nA) {question.OptionD}";
+                string str = $"<b>{question.Title}</b>\n\nA) {question.OptionA}\nB) {question.OptionB}\nC) {question.OptionC}\nD) {question.OptionD}";
                 await bot.SendTextMessageAsync(update.Message.Chat.Id, str, Telegram.Bot.Types.Enums.ParseMode.Html, replyMarkup: PagesService.InlineMarkup());
                 TrueAnswer = question.TrueAnswer;
                 update.Message = null;
