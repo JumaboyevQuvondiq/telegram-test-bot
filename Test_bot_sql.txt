@@ -1,0 +1,54 @@
+create table users(
+	user_id varchar(13) unique,
+	full_name text,
+	username text
+);
+
+
+
+create table categories(
+	id int generated always as identity primary key,
+	category_name varchar(40),
+	count_exam int
+);
+
+
+create table admins(
+	id varchar unique,
+	name varchar
+);
+
+create table exams(
+	id int generated always as identity primary key,
+	title varchar(50),
+	total_question int,
+	admin_id text references admins(id),
+	category_id int references categories(id)
+	
+);
+
+
+
+create table questions (
+	id int generated always as identity primary key,
+	title text,
+	true_answer char,
+	option_a text,
+	option_b text,
+	option_c text,
+	option_d text,
+	exam_id int
+);
+create table user_exams(
+	id int generated always as identity primary key,
+	user_id text references users(user_id),
+	exam_id int references exams(id),
+	start_time timestamp with time zone,
+	true_answer_count int
+);
+create table user_answers(
+	id int generated always as identity primary key,
+	user_exam_id int references user_exams(id),
+	question_id int references questions(id),
+	answer char
+);
